@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+	<property name="APP_Name" value="Gps App" />
+	<contextName>${APP_Name}</contextName>
+	<!-- <property name="LOG_HOME" value="E:/EnglishSoft/Apache" /> -->
+	<property name="LOG_HOME" value="/usr/local/tomcat/applogs" />
+	<!--  全日志文件输出 -->
+	<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<prudent>true</prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/SLF4J-Logs/jtaq-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>30MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>[%-5level][%d{yyyy-MM-dd HH:mm:ss.SSS}] %class - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<!-- 出错日志文件输出 -->
+	<appender name="ROLLING_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<prudent>true</prudent>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/SLF4J-Logs/jtaq-%d{yyyy-MM-dd}.%i.error.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>30MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>[%-5level][%d{yyyy-MM-dd HH:mm:ss.SSS}] %class - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>[%-5level][%d{yyyy-MM-dd HH:mm:ss.SSS}] %class - %msg%n</Pattern>
+		</encoder>
+	</appender>
+	<!-- 配置Ibatis中的log4j日志通过jcl-over-slf4j桥接到logback日志中输出，additivity=false表示只对Logger中的 appender有效，
+		  如果为true中，也对root中的appender有效-->
+	<logger name="java.sql.Connection" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+    <logger name="java.sql.PreparedStatement" level="DEBUG" additivity="false"> 
+    	<appender-ref ref="STDOUT" />
+	</logger>
+    <logger name="com.xipin.codegenerator" level="DEBUG" additivity="false"> 
+    	<appender-ref ref="STDOUT" />
+	</logger>
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+<!-- 		<appender-ref ref="ROLLING" /> -->
+<!-- 		<appender-ref ref="ROLLING_ERROR" /> -->
+	</root>
+</configuration>

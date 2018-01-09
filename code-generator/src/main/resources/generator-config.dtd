@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT configuration (properties*,property*,classPathEntry*,jdbcConnection,templates,tables)>
+<!ATTLIST configuration id ID #IMPLIED>
+
+<!--
+	加载配置文件：resource和url只能配置其中的一个
+	resource 从类的路径中加载
+	url 任意位置
+-->
+<!ELEMENT properties EMPTY>
+<!ATTLIST properties 
+	resource CDATA #IMPLIED
+	url CDATA #IMPLIED>
+
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+  name CDATA #REQUIRED
+  value CDATA #REQUIRED>
+
+<!--
+  加载jar或者class文件到classPath中
+-->
+<!ELEMENT classPathEntry EMPTY>
+<!ATTLIST classPathEntry
+  location CDATA #REQUIRED>
+
+<!ELEMENT jdbcConnection (property*)>
+<!ATTLIST jdbcConnection 
+  driverClass CDATA #REQUIRED
+  connectionURL CDATA #REQUIRED
+  userId CDATA #REQUIRED
+  password CDATA #REQUIRED>
+ 
+<!--模版配置 -->
+<!ELEMENT templates (template*)>
+<!--
+	所有模版文件公用属性
+	overwrite 如果文件已存在是否重写，默认重写
+	makeDirIfNotExist 如果存放目录不存在是否创建
+	tplDirectory 模版文件的存放路径
+-->
+<!ATTLIST templates 
+	overwrite (true|false) "true"
+	makeDirIfNotExist (true|false) "true"
+	tplDirectory CDATA #REQUIRED
+>
+<!ELEMENT template EMPTY>
+<!--
+	tplFile 模版文件名称
+	targetDirectory 生成文件的存放路径
+	保存的文件名为：文件名前缀+表名（首字母大写）+文件名后缀+"."+生成文件的类型
+	fileType 生成文件的类型(后缀）
+	fileNamePrefix 文件名前缀
+	fileNameSuffix 文件名后缀
+	
+-->
+<!ATTLIST template id CDATA #IMPLIED
+	tplFile CDATA #REQUIRED
+	targetDirectory CDATA #REQUIRED
+	fileType CDATA #REQUIRED
+	fileNamePrefix CDATA #IMPLIED
+	fileNameSuffix CDATA #IMPLIED
+>
+<!--
+	数据库中的表配置，多个值用","(英文)隔开，"*"匹配任意字符
+	include 包含的表
+	exclude 排除的表
+	containsView 是否包含视图
+	catalog schema 为java中DatabaseMetaData的getTables方法的参数
+		schema oracle数据时为表用户
+	forceBigDecimals 数值类型是否强制转化为BigDecimal类型
+	生成规则：
+		如果包含在 exclude中，不生成
+		不在exclude中：
+			如果include为空，生成
+			如果include不为空
+				包含在include中，生成
+				不包含，不生成
+-->
+<!ELEMENT tables EMPTY>
+<!ATTLIST tables 
+	catalog CDATA #IMPLIED
+	schema CDATA #IMPLIED
+	containsView (true|false) "true"
+	include CDATA #IMPLIED
+	exclude CDATA #IMPLIED
+	forceBigDecimals (true|false) "false"
+>
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//xipintech.com//code generator//CN" "http://xipintech.com:8081/dtd/generator-config.dtd" >
+<configuration>
+	<property name="targetProject" value="D:/temp"></property>
+	<!-- 数据库驱动 -->
+	<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+	<!-- 数据库连接字符串 -->
+	<property name="connectionURL" value="jdbc:mysql://localhost:3306/test"></property>
+	<!-- 数据库用户名 -->
+	<property name="userName" value="root"></property>
+	<!-- 数据库密码 -->
+	<property name="password" value="123456"></property>
+	<!-- 实体的包名 -->
+	<property name="entityPackageName" value="com.ydtf.entity"></property>
+	<!-- mapper的包名 -->
+	<property name="mapperPackageName" value="com.ydtf.mapper"></property>
+	<!-- service的包名 -->
+	<property name="servicePackageName" value="com.ydtf.service"></property>
+	<!-- baseService的包名 -->
+	<property name="baseServicePackageName" value="com.ydtf.base"></property>
+	<!-- serviceImpl的包名 -->
+	<property name="serviceImplPackageName" value="com.ydtf.service.impl"></property>
+	<!-- baseMapper的包名 -->
+	<property name="baseMapperPackageName" value="com.ydtf.base"></property>
+	<classPathEntry location="D:\xipin_work\repository\mybatis-generator\code-generator\code-generator\lib\mysql-connector-java-5.1.34-bin.jar"/>
+	<jdbcConnection driverClass="${driverClass}" connectionURL="${connectionURL}" userId="${userName}" password="${password}" >
+		<property name="remarksReporting" value="true"/>
+	</jdbcConnection>
+	<templates overwrite="true" makeDirIfNotExist="true" tplDirectory="D:\xipin_work\repository\mybatis-generator\code-generator\code-generator\src\main\resources\template">
+		<template targetDirectory="D:/tmp/test/src/com/ydtf/entity" fileNamePrefix="" fileNameSuffix="" tplFile="model.ftl" fileType="java"></template>
+		<template targetDirectory="D:/tmp/test/src/com/ydtf/service" fileNamePrefix="" fileNameSuffix="Service" tplFile="service.ftl" fileType="java"></template>
+		<template targetDirectory="D:/tmp/test/src/com/ydtf/service/impl" fileNamePrefix="" fileNameSuffix="ServiceImpl" tplFile="serviceImpl.ftl" fileType="java"></template>
+		<template targetDirectory="D:/tmp/test/src/com/ydtf/mapper" fileNamePrefix="" fileNameSuffix="Mapper" tplFile="jMapper.ftl" fileType="java"></template>
+		<template targetDirectory="D:/tmp/test/config/mapping" fileNamePrefix="" fileNameSuffix="Mapper" tplFile="mapper.ftl" fileType="xml"></template>
+	</templates>
+	<tables schema="test" forceBigDecimals="false" containsView="true" exclude="tsm*" include="goods,sec_kill"/>
+</configuration>
